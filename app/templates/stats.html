@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Journal - MoodMuse{% endblock %}
+
+{% block content %}
+    <title>Mood Stats</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        canvas {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff66cc;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px auto;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: hotpink;">📊 Mood Statistics</h1>
+    <a href="{{ url_for('home') }}" class="button">🏠 Home</a>
+
+    <div class="chart-container">
+        <canvas id="moodChart" width="400" height="200"></canvas>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById("moodChart").getContext("2d");
+
+            const data = {
+                labels: {{ labels|tojson }},
+                datasets: [{
+                    label: 'Mood Count',
+                    data: {{ values|tojson }},
+                    backgroundColor: [
+                        '#FFD700',  // Happy 😊
+                        '#7AB8F5',  // Sad 😔
+                        '#C0C0C0',  // Neutral 😐
+                        '#CBA0E3',  // Confused 😵‍💫
+                        '#FF6B6B',  // Heartbroken 💔
+                        '#FF69B4',  // In Love 😍
+                        '#A3FFBF',  // Chill 😌
+                        '#90EE90'   // Wholesome 🤗
+                    ]
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            };
+
+            new Chart(ctx, config);
+        });
+    </script>
+{% endblock %}

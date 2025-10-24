@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+body.blush {
+  --bg-color: #fff0f5;
+  --text-color: #4b2c3f;
+}
+
+body.sage {
+  --bg-color: #eafaf1;
+  --text-color: #2e5949;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f5f5f5;
+}
+
+body.tech {
+  --bg-color: #0f0f1a;
+  --text-color: #00ffe0;
+}
+
+/* --- Layout --- */
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+form.journal-form {
+  max-width: 700px;
+  margin: 0 auto 20px auto;
+  text-align: left;
+}
+
+textarea {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 14px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+label, select {
+  font-size: 0.95rem;
+}
+
+/* --- Card --- */
+.entry {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 700px;
+  transition: all 0.3s ease-in-out;
+}
+
+.entry:hover {
+  transform: translateY(-5px);
+}
+
+/* --- Buttons --- */
+button {
+  background: linear-gradient(135deg, #ff66cc, #ff99cc);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 22px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff33aa, #ff77bb);
+}
+
+/* --- Links --- */
+a {
+  color: #ff66cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Headers --- */
+h1, h2, h3 {
+  text-align: center;
+  color: #ff4fa2;
+  margin-bottom: 10px;
+}
+
+/* --- Mood Animation --- */
+.mood {
+  font-weight: 600;
+  font-size: 1.4rem;
+  animation: popIn 0.8s ease;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- Songs --- */
+.songs iframe {
+  margin-top: 10px;
+  border-radius: 12px;
+}
+
+.songs a {
+  display: inline-block;
+  background: rgba(255,255,255,0.3);
+  padding: 8px 10px;
+  border-radius: 10px;
+  margin: 4px;
+  transition: 0.3s;
+}
+
+.songs a:hover {
+  background: rgba(255,255,255,0.6);
+  color: #ff4fa2;
+}
+
+/* Center back links */
+.back-link {
+  text-align: center;
+  margin-top: 20px;
+}

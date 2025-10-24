@@ -1,0 +1,29 @@
+
+ {% extends "base.html" %}
+{% block title %}Journal - MoodMuse{% endblock %}
+
+{% block content %}
+   <title>📝 MoodMuse | Past Entries</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    <h1>📖 Your Past Mood Entries</h1>
+
+    {% for entry in entries %}
+        <div class="entry">
+            <p><strong>Entry:</strong> {{ entry.entry }}</p>
+            <p class="mood">Mood: {{ entry.mood }}</p>
+            {% if entry.songs %}
+            <div class="songs">
+                <strong>Songs:</strong>
+                {% for song in entry.songs %}
+                    <a href="{{ song }}" target="_blank">{{ song }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <a href="/" class="back-link">⬅️ Back to Home</a>
+{% endblock %}

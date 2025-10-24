@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Journal - MoodMuse{% endblock %}
+{% block content %}
+
+<div class="container">
+  <h1>How are you feeling today?</h1>
+
+  <form method="POST" class="journal-form">
+      <textarea name="entry" rows="8" placeholder="Write your thoughts...">{{ entry if entry else '' }}</textarea><br><br>
+
+      <label for="language">Preferred Language:</label>
+      <select name="language" id="language">
+          <option value="english">English</option>
+          <option value="hindi">Hindi</option>
+          <option value="tamil">Tamil</option>
+          <option value="telugu">Telugu</option>
+          <option value="kannada">Kannada</option>
+          <option value="korean">Korean</option>
+          <option value="spanish">Spanish</option>
+      </select><br><br>
+
+      <button type="submit">Analyze Mood</button>
+  </form>
+
+  {% if mood %}
+  <div class="entry">
+      <h3>Your Mood: <span class="mood">{{ mood }}</span></h3>
+
+      {% if songs and songs|length > 0 %}
+      <div class="songs">
+          <h4>🎵 Songs for your mood:</h4>
+          {% for song in songs %}
+              {% if "track" in song or "playlist" in song %}
+                  <iframe style="border-radius:12px"
+                      src="https://open.spotify.com/embed{{ song.split('open.spotify.com')[1] }}?utm_source=generator"
+                      width="100%" height="80" frameBorder="0" allowfullscreen=""
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+                  </iframe><br>
+              {% else %}
+                  <a href="{{ song }}" target="_blank" rel="noopener">{{ song }}</a><br>
+              {% endif %}
+          {% endfor %}
+      </div>
+      {% else %}
+      <p>No songs found right now 🎧</p>
+      {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="back-link">
+      <a href="{{ url_for('home') }}">← Back to Home</a> ·
+      <a href="{{ url_for('entries') }}">📔 Past Entries</a> ·
+      <a href="{{ url_for('stats') }}">📊 Mood Stats</a>
+  </div>
+</div>
+
+{% endblock %}

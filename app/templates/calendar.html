@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Journal - MoodMuse{% endblock %}
+
+{% block content %}
+    <title>Mood Calendar</title>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f7f7f7;
+            padding: 30px;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center;">📅 Your Mood Calendar</h2>
+    <div id='calendar'></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            fetch('/mood-history')
+                .then(response => response.json())
+                .then(data => {
+                    const events = data.map(entry => ({
+                        title: entry.mood,
+                        start: entry.date,
+                        color: getColor(entry.mood)
+                    }));
+
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        events: events
+                    });
+
+                    calendar.render();
+                });
+
+            function getColor(mood) {
+                const colors = {
+                    "Happy 😊": "#FFD700",
+                    "Sad 😔": "#7AB8F5",
+                    "Neutral 😐": "#C0C0C0",
+                    "Confused 😵‍💫": "#CBA0E3",
+                    "Heartbroken 💔": "#FF6B6B",
+                    "In Love 😍": "#FF69B4",
+                    "Chill 😌": "#A3FFBF",
+                    "Wholesome 🤗": "#90EE90"
+                };
+                return colors[mood] || 'lightgrey';
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

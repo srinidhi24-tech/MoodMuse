@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to MoodMuse{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center; color: hotpink;">Welcome to MoodMuse</h1>
+<p style="text-align: center;">Your personal mood-based journal 🌸</p>
+
+<form method="POST" action="{{ url_for('set_theme') }}" style="text-align: center; margin-top: 20px;">
+    <label for="theme">Choose your vibe:</label>
+    <select name="theme" id="theme">
+        <option value="blush">💗 Blush Pink</option>
+        <option value="dark">🌌 Midnight Dark</option>
+        <option value="sage">🌿 Sage Calm</option>
+        <option value="pastel">🧁 Pastel Pop</option>
+        <option value="tech">🎧 Tech Vibe</option>
+    </select>
+    <button type="submit" class="button">Apply Theme</button>
+</form>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="{{ url_for('journal') }}" class="button">Write a Journal Entry</a>
+    <a href="{{ url_for('entries') }}" class="button">📔 View Past Entries</a>
+    <a href="{{ url_for('stats') }}" class="button">📊 View Mood Stats</a>
+    <a href="{{ url_for('calendar') }}" class="button">📅 Open Calendar</a>
+</div>
+
+<h2 style="text-align: center; margin-top: 50px;">📅 Your Mood Calendar</h2>
+<div id="calendar"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+
+    fetch('/mood-history')
+      .then(response => response.json())
+      .then(data => {
+        const events = data.map(entry => ({
+          title: entry.mood,
+          start: entry.date,
+          color: getColor(entry.mood)
+        }));
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          height: 'auto',
+          events: events
+        });
+
+        calendar.render();
+      });
+
+    function getColor(mood) {
+      const colors = {
+        "Happy 😊": "#FFD700",
+        "Sad 😔": "#7AB8F5",
+        "Neutral 😐": "#C0C0C0",
+        "Confused 😵‍💫": "#CBA0E3",
+        "Heartbroken 💔": "#FF6B6B",
+        "In Love 😍": "#FF69B4",
+        "Angry 😡": "#ff6347",
+        "Crying 😭": "#87CEFA",
+        "Lazy 🛋️": "#E0E0E0",
+        "Anxious 😰": "#FFC1C1",
+        "Motivated 💪": "#FF8C00",
+        "Bored 😐": "#B0BEC5",
+        "Hopeful 🌈": "#FFD3E0",
+        "Lonely 🥺": "#AAB7B8",
+        "Productive ✅": "#4CAF50",
+        "Chill 😌": "#A3FFBF",
+        "Wholesome 🤗": "#90EE90"
+      };
+      return colors[mood] || 'lightgrey';
+    }
+  });
+</script>
+{% endblock %}
